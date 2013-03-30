@@ -10,6 +10,7 @@ import random
 import string
 
 WORDLIST_FILENAME = "words.txt"
+MAX_LENGTH = 33
 
 def loadWords():
     """
@@ -36,35 +37,29 @@ def spacer ():
     doc = open(doc_path, 'r', 0)
     essay = doc.read()
     # D[j] implies that chars 1-j is a valid collection of words
-    D, F = [], []
-    print essay
+    D = []
+    next = 0
     essay_length = len(essay)
     for x in range(essay_length):
         D.append(False)
-        F.append(False)
     # D[j] stores whether chars 1-j form a valid cluster of words
     # We will first check D[1] and then D[1...j], if it is valid cluster we set D(j) = True
     # To check further we loop through each k such that D[1...k] is true and D[k+1,j] belongs in dictionary
     for j in range(1, essay_length + 1):
         if essay[:j] in words:
-            D[j] = True
-            F[0] = essay[:j]
-            for each in range(1, j):
-                F[each] = False
+            D[j] = 0
         else:
             for k in range(1, j):
-                if D[k] and (essay[k:j] in words):
-                    D[j] = True
-                    F[k] = essay[k:j]
-                    for each in range(k+1, j):
-                        F[each] = False
+                if (D[k] is not False) and (essay[k:j] in words):
+                    D[j] = k
                     break                                                       
-    fixed = []
-    for each in F:
-        if each:
-            fixed.append(each)
-    print D
-    print F
+    fixed = ""
+    start = D[essay_length - 1]
+    finish = essay_length
+    while (start is not False):
+        fixed = essay[start:finish] + " " + fixed
+        finish = start
+        start = D[start]
     print fixed
                     
                   
