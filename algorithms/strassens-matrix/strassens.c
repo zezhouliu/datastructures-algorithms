@@ -1,3 +1,15 @@
+/* * * * * * * * * * 
+ * Zezhou Alex Liu
+ *
+ * strassens.c
+ * Usage: ./strassen <0> <dimension> <inputfile>
+ *
+ * Implementation of Strassen's algorithm for matrix multiplication.
+ * Used in CS124: Data Structures and Algorithms course to examine 
+ * optimization of running-time.
+ * * * * * * * * * */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -10,7 +22,8 @@ int matrix_mult (int dim, int matrixarray1[dim][dim], int matrixarray2[dim][dim]
 
 int main (int argc, char* argv[])
 {
-    
+   
+    // safety check for running program
     if (argc != 4) {
         printf ("Usage: ./strassen <0> <dimension> <inputfile> \n");
         return -1;
@@ -24,8 +37,7 @@ int main (int argc, char* argv[])
     int matrixarray2[dim][dim];
     int flag = 1;
     
-    // printf("%s \n", argv[3]);
-    
+    // read from input file
     FILE* inFile = fopen(argv[3], "r");
     if (inFile == NULL)
     {
@@ -91,7 +103,6 @@ int matrix_mult (int dim, int matrixarray1[dim][dim], int matrixarray2[dim][dim]
                     for (l = 0; l < dim; l++)
                             suma += matrixarray1[col][l]*matrixarray2[row][l];
                     printf ("%d", suma);
-                    // matrix_result[j][k] = suma;
             }
          }
     c++;
@@ -101,7 +112,7 @@ int matrix_mult (int dim, int matrixarray1[dim][dim], int matrixarray2[dim][dim]
 
 }
 
-
+// print two matrices
 int print_matrices(int dim, int matrixarray1[dim][dim], int matrixarray2[dim][dim])
 {
     int row, column;
